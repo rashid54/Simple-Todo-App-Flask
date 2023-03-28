@@ -10,6 +10,7 @@
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "bootstrap": "^5.2.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -18,7 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "set PUBLIC_URL=/static/editor && react-scripts build && node export-react.js",
+    "build": "set PUBLIC_URL=/static/editor&& react-scripts build && node export-react.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

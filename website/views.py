@@ -7,27 +7,38 @@ import json
 views = Blueprint('views', __name__)
 
 
+# @views.route('/', methods=['GET', 'POST'])
+# @login_required
+# def home():
+#     if request.method == 'POST': 
+#         note = request.form.get('note')#Gets the note from the HTML 
+
+#         if len(note) < 1:
+#             flash('Note is too short!', category='error') 
+#         else:
+#             new_note = Note(data=note, user_id=current_user.id)  #providing the schema for the note 
+#             db.session.add(new_note) #adding the note to the database 
+#             db.session.commit()
+#             flash('Note added!', category='success')
+
+#     return render_template("home.html", user=current_user)
+
+
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
-    if request.method == 'POST': 
-        note = request.form.get('note')#Gets the note from the HTML 
+    return render_template("editor/editor.html", flask_token=current_user.id)
 
-        if len(note) < 1:
-            flash('Note is too short!', category='error') 
-        else:
+# REST api
+@views.route('/note', methods=['GET', 'POST'])
+@login_required
+def get_notes():
+    if request.method == 'POST':
+        note = request.form.get('note')
+        if len(note) > 0:
             new_note = Note(data=note, user_id=current_user.id)  #providing the schema for the note 
             db.session.add(new_note) #adding the note to the database 
             db.session.commit()
-            flash('Note added!', category='success')
-
-    # return render_template("home.html", user=current_user)
-    return render_template("editor/editor.html", user=current_user)
-
-# REST api
-@views.route('/notes', methods=['GET'])
-@login_required
-def get_notes():
     return [{
         "id" : note.id,
         "data" : note.data,
