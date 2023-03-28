@@ -21,7 +21,8 @@ def home():
             db.session.commit()
             flash('Note added!', category='success')
 
-    return render_template("home.html", user=current_user)
+    # return render_template("home.html", user=current_user)
+    return render_template("editor/editor.html", user=current_user)
 
 # REST api
 @views.route('/notes', methods=['GET'])
