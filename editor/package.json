@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "set PUBLIC_URL=/static/editor&& react-scripts build && node export-react.js",
+    "build": "env PUBLIC_URL=/static/editor react-scripts build && node export-react.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
