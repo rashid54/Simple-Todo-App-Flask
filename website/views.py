@@ -34,15 +34,29 @@ def home():
 @login_required
 def get_notes():
     if request.method == 'POST':
-        note = request.form.get('note')
+        print(request.json)
+        note = request.json.get('note')
+        note_priority = request.json.get('priority')
         if len(note) > 0:
-            new_note = Note(data=note, user_id=current_user.id)  #providing the schema for the note 
+            new_note = Note(data=note, priority=note_priority, user_id=current_user.id)  #providing the schema for the note 
             db.session.add(new_note) #adding the note to the database 
             db.session.commit()
+    
+    if request.args.get('priority') is not None:
+        return [{
+        "id" : note.id,
+        "data" : note.data,
+        "date" : note.date,
+        "priority": note.priority,
+        "user_id" : note.user_id
+        } 
+        for note in current_user.notes if request.args.get('priority') == note.priority]
+
     return [{
         "id" : note.id,
         "data" : note.data,
         "date" : note.date,
+        "priority": note.priority,
         "user_id" : note.user_id
         } 
         for note in current_user.notes]
@@ -58,3 +72,20 @@ def delete_note():
             db.session.commit()
 
     return jsonify({})
+
+@views.route('/note/<noteId>', methods=['DELETE'])
+@login_required
+def del_note(noteId):
+    note = Note.query.get(noteId)
+    if note:
+        if note.user_id == current_user.id:
+            db.session.delete(note)
+            db.session.commit()
+
+    return [{
+        "id" : note.id,
+        "data" : note.data,
+        "date" : note.date,
+        "user_id" : note.user_id
+        } 
+        for note in current_user.notes]

@@ -8,6 +8,7 @@ declare global {
     interface Todo {
         "data": string,
         "date": string,
+        "priority": string,
         "id": number,
         "user_id": number
       }
