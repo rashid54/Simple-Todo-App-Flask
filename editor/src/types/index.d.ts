@@ -12,4 +12,10 @@ declare global {
         "id": number,
         "user_id": number
       }
+
+    interface User {
+        "id": number,
+        "first_name": string,
+        "email": string
+      }
 }

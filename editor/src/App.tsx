@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Select } from './components/Select';
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -99,10 +100,11 @@ function App() {
 
                   <form className="d-flex justify-content-start align-items-start mb-4" onSubmit={handleSubmit} >
                     <div className="form-outline flex-fill">
-                      <input type="text" value={formData} onChange={handleChange} id="form3" className="form-control form-control-lg" />
+                      <input type="text" value={formData} onChange={handleChange} id="form3" className="form-control" />
                       <label className="form-label" htmlFor="form3">What do you need to do today?</label>
                     </div>
-                    <button type="submit" className="btn btn-primary btn-lg ms-2">Add</button>
+                    <Select />
+                    <button type="submit" className="btn btn-primary ms-2">Add</button>
                   </form>
 
                   <ul className="list-group mb-0">
