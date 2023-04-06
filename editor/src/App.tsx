@@ -96,7 +96,7 @@ function App() {
               <div className="card" style={{borderRadius: "15px"}}>
                 <div className="card-body p-5">
 
-                  <h6 className="mb-3">Awesome Todo List</h6>
+                  <h6 className="mb-3">Todo List</h6>
 
                   <form className="d-flex justify-content-start align-items-start mb-4" onSubmit={handleSubmit} >
                     <div className="form-outline flex-fill">

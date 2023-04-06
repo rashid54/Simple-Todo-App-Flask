@@ -1,0 +1,6 @@
+.option:hover {
+    background: #CAEDFD;
+}
+.option.selected {
+    background: #72C3F9;
+}

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import "./Select.css"
 
 const options = [
     {
@@ -163,35 +164,33 @@ const options = [
     }
   ]
   
-  const Option = (props: { x: any; setSelectedValue: (x: any) => void; setToggle: (x: boolean) => void }) => {
+  const Option = (props: { x: any; handleSelection: (x: any)=> void; isSelected: boolean }) => {
     return (
       <div
+        className= {"rounded option"+(props.isSelected?" selected":"")}
         style={{
           width: "300px",
-          lineHeight: "16px",
           cursor: "pointer",
           padding: "10px 15px",
           textAlign: "left"
         }}
-        onClick={() => {
-          props.setSelectedValue(props.x)
-          props.setToggle(false)
-        }}
+        onMouseDown={(e)=>e.preventDefault()}
+        onClick={()=>props.handleSelection(props.x)}
       >
-        <p>id: {props.x.id}</p>
-        <p>first_name: {props.x.first_name}</p>
-        <p>last_name: {props.x.last_name}</p>
-        <p>gender: {props.x.gender}</p>
-        <p>email: {props.x.email}</p>
+        <p style={{margin: "0px"}}>id: {props.x.id}</p>
+        <p style={{margin: "0px"}}>first_name: {props.x.first_name}</p>
+        <p style={{margin: "0px"}}>last_name: {props.x.last_name}</p>
+        <p style={{margin: "0px"}}>gender: {props.x.gender}</p>
+        <p style={{margin: "0px"}}>email: {props.x.email}</p>
         {/* <p>ip_address: {props.x.ip_address}</p> */}
         <hr 
           style={{
             width: "80%",
-            height: "0px",
-            margin: "0px auto",
-            borderTop: "0px",
-            borderBottom: "6px",
-            borderStyle: "dotted",
+            // height: "0px",
+            margin: "8px auto 0px",
+            // borderTop: "0px",
+            // borderBottom: "6px",
+            // borderStyle: "dotted",
             borderColor: "#5D5D5D"
           }}
         />
@@ -204,14 +203,15 @@ export const Select = () => {
     const [selectedValue, setSelectedValue] = useState<any>(undefined)
     const [inputValue, setInputValue] = useState("")
     const inputTextRef = useRef<HTMLInputElement>(null)
-  
-    useEffect(() => {
-      setInputValue(selectedValue?.first_name || "")
-      if (inputTextRef && inputTextRef.current && inputTextRef.current.value) {
-        inputTextRef.current.value = selectedValue?.first_name || ""
-      }
-    }, [selectedValue])
-  
+
+    console.log(selectedValue);
+
+    const handleSelection = (x: any) => {
+      // setInputValue(x.first_name)
+      setSelectedValue(x)
+      setToggle(false)
+    }
+
     return (
       <>
         <div style={{ display: "flex", justifyContent: "center", justifyItems: "center" }}>
@@ -219,13 +219,14 @@ export const Select = () => {
             <input
               className="form-control"
               type="text"
-              ref={inputTextRef}
+              value={toggle||inputValue?inputValue:selectedValue?.first_name}
               style={{ width: "300px" }}
-              onClick={()=>setToggle(true)}
-            //   onFocusCapture={() => setToggle(true)}
-            //   onBlurCapture={() => setToggle(false)}
+              onClick={(e)=>{setToggle(true)}}
+              onFocusCapture={() => setToggle(true)}
+              onBlur={() => {setInputValue("");setToggle(false)}}
               onChange={(e) => {
                 setInputValue(e.target.value)
+                setToggle(true)
               }}
             />
             {toggle && (
@@ -241,7 +242,7 @@ export const Select = () => {
                   border: "1px solid #ced4da",
                   padding: "1px 3px",
                   borderRadius: ".375rem",
-                  scrollbarWidth: "thin"
+                  scrollbarWidth: "none"
                 }}
               >
                 {options
@@ -250,8 +251,8 @@ export const Select = () => {
                     if (x.first_name.includes(inputValue)) return true
                     return false
                   })
-                  .map((x, i) => {
-                    return <Option key={i} x={x} setSelectedValue={setSelectedValue} setToggle={setToggle} />
+                  .map((x) => {
+                    return <Option key={x.id} x={x} handleSelection={handleSelection} isSelected={selectedValue?.id === x.id} />
                   })}
               </div>
             )}
