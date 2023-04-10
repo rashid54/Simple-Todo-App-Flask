@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const Option = ({x, handleSelection, isSelected, isFocused }: Props) => {
-    const focusedRef = useRef<HTMLDivElement>(null);
+    const focusedRef = useRef<HTMLAnchorElement>(null);
 
     useEffect(()=>{
       isFocused && focusedRef.current?.scrollIntoView({
@@ -17,8 +17,9 @@ export const Option = ({x, handleSelection, isSelected, isFocused }: Props) => {
       });
     }, [isFocused])
     return (
-      <div
-        className={`rounded option ${isSelected?"selected":""} ${isFocused?"focused":""}`}
+      <a
+        className={`list-group-item list-group-item-action ${isSelected?"active ":""} ${isFocused?"focused ":""}`}
+        type="button"
         ref={isFocused?focusedRef:null}
         style={{
           width: "300px",
@@ -36,7 +37,7 @@ export const Option = ({x, handleSelection, isSelected, isFocused }: Props) => {
         <p style={{margin: "0px"}}>gender: {x.gender}</p>
         <p style={{margin: "0px"}}>email: {x.email}</p>
         {/* <p>ip_address: {props.x.ip_address}</p> */}
-        <hr 
+        {/* <hr 
           style={{
             width: "80%",
             // height: "0px",
@@ -46,7 +47,7 @@ export const Option = ({x, handleSelection, isSelected, isFocused }: Props) => {
             // borderStyle: "dotted",
             borderColor: "#5D5D5D"
           }}
-        />
-      </div>
+        /> */}
+      </a>
     )
   }

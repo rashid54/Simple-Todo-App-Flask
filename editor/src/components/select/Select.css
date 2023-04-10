@@ -5,6 +5,7 @@
     background: #CAEDFD;
 }
 
-.option.focused {
-    background: rgba(155, 155, 155, 0.705);
+.focused {
+    background: rgba(255, 255, 255, 0.377);
+    
 }

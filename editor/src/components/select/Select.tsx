@@ -77,11 +77,10 @@ export const Select = () => {
             />
             {toggle && (
               <div
-                className="form-control"
+                className="list-group list-group-flush bg-light"
                 style={{
                   position: "absolute",
                   zIndex: "20",
-                  background: "white",
                   width: "300px",
                   height: "500px",
                   overflowY: "scroll",
@@ -92,8 +91,6 @@ export const Select = () => {
                 }}
               >
                 {filteredOptions.map((x, index) => {
-                   console.log(index, index == focusedIndex);
-                   
                     return <Option 
                       key={x.id} 
                       x={x} 
