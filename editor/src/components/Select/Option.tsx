@@ -1,13 +1,25 @@
+import { useEffect, useRef } from "react"
+import { JsxElement } from "typescript"
+
 interface Props {
     x: any, 
     handleSelection: (x: any)=> void, 
     isSelected: boolean ,
+    isFocused: boolean,
 }
 
-export const Option = ({x, handleSelection, isSelected }: Props) => {
+export const Option = ({x, handleSelection, isSelected, isFocused }: Props) => {
+    const focusedRef = useRef<HTMLDivElement>(null);
+
+    useEffect(()=>{
+      isFocused && focusedRef.current?.scrollIntoView({
+        block:"center",
+      });
+    }, [isFocused])
     return (
       <div
-        className= {"rounded option"+(isSelected?" selected":"")}
+        className={`rounded option ${isSelected?"selected":""} ${isFocused?"focused":""}`}
+        ref={isFocused?focusedRef:null}
         style={{
           width: "300px",
           cursor: "pointer",

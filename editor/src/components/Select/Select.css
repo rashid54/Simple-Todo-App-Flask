@@ -1,6 +1,10 @@
 .option:hover {
-    background: #CAEDFD;
+    background: rgba(155, 155, 155, 0.705);
 }
 .option.selected {
-    background: #72C3F9;
+    background: #CAEDFD;
+}
+
+.option.focused {
+    background: rgba(155, 155, 155, 0.705);
 }

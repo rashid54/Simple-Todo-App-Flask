@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Select } from './components/Select';
+import { Select } from './components/Select/Select';
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
