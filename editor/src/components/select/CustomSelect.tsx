@@ -1,9 +1,15 @@
-import { useEffect, useRef, useState } from "react"
-import "./Select.css"
+import { ReactNode, useEffect, useRef, useState } from "react"
+import "./CustomSelect.css"
 import { Option } from "./Option";
-import {options} from "./SampleData"
+// import {profiles as options} from "../../SampleData"
 
-export const Select = () => {
+interface Props {
+  render: (x: any)=> ReactNode,
+  options: any[],
+  filterByText: (x: any, input: string)=> boolean,
+}
+
+export const CustomSelect = ({render, options, filterByText}: Props) => {
     const [toggle, setToggle] = useState(false);
     const [filteredOptions, setFilteredOptions] = useState(()=>options);
     const [selectedValue, setSelectedValue] = useState<any>(undefined);
@@ -54,7 +60,7 @@ export const Select = () => {
     };
 
     useEffect(
-      ()=>setFilteredOptions(options.filter((x) => (x.first_name.toLowerCase().includes(inputValue.toLowerCase()) || (!inputValue)))),
+      ()=>setFilteredOptions(options.filter((x) => filterByText(x, inputValue) || (!inputValue))),
       [inputValue,]
     );
     return (
@@ -67,11 +73,11 @@ export const Select = () => {
             onKeyDown={handleKeyDown}
           >
             <input
-              className="form-control"
+              className={`form-control ${selectedValue?"bg-secondary-subtle":""}`}
               type="text"
               placeholder="Assign To"
-              value={toggle||inputValue?inputValue:selectedValue?.first_name}
-              style={{ width: "300px" }}
+              value={toggle||inputValue?inputValue:(selectedValue?.first_name || selectedValue)}
+              style={{ width: "100%" }}
               onClick={(e)=>{setToggle(true)}}
               onChange={(e)=> handleChange(e.target.value)}
             />
@@ -82,20 +88,21 @@ export const Select = () => {
                   position: "absolute",
                   zIndex: "20",
                   width: "300px",
-                  height: "500px",
-                  overflowY: "scroll",
+                  maxHeight: "500px",
+                  overflowY: "auto",
                   border: "1px solid #ced4da",
                   padding: "1px 3px",
                   borderRadius: ".375rem",
-                  scrollbarWidth: "none"
+                  scrollbarWidth: "none",
                 }}
               >
                 {filteredOptions.map((x, index) => {
                     return <Option 
-                      key={x.id} 
+                      key={x.id || index} 
                       x={x} 
+                      render={render}
                       handleSelection={handleSelection} 
-                      isSelected={selectedValue?.id === x.id} 
+                      isSelected={(x.id && selectedValue?.id === x.id) || selectedValue === x} 
                       isFocused={index === focusedIndex}
                     />
                   })}

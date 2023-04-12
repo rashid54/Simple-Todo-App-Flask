@@ -1,0 +1,32 @@
+/* Inactive tab */
+ul.customTabs > li > button {
+  background-color: #D0D0CF;
+  color: black;
+}
+ul.customTabs > li > button:hover {
+  background-color: #d3d3d3af;
+}
+
+/* Active tab */
+/* ul.customTabs > li > button.active{
+  background-color: red;
+  color: blue;
+}
+ */
+
+
+ /* Inactive tab */
+div.customTabs > div.nav-item > a {
+  background-color: #D0D0CF;
+  color: black;
+}
+div.customTabs > div.nav-item > a:hover {
+  background-color: #d3d3d3af;
+  color: #0a58ca;
+}
+
+/* Active tab */
+div.customTabs > div.nav-item > a.active {
+  background-color: white;
+  color: #0a58ca;
+}
