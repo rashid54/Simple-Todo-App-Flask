@@ -87,7 +87,7 @@ export const Home = () => {
 											<input type="text" value={formData} onChange={handleChange} id="form3" className="form-control" />
 											<label className="form-label" htmlFor="form3">What do you need to do today?</label>
 										</div>
-										<CustomSelect render={render} options={profiles} filterByText={filter}/>
+										<div className="w-25 mx-2"><CustomSelect placeholder="Assign to" render={render} options={profiles} filterByText={filter}/></div>
 										<button type="submit" className="btn btn-primary ms-2">Add</button>
 									</form>
 

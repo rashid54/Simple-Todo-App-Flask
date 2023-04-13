@@ -42,7 +42,7 @@ export const Option = ({x, render, handleSelection, isSelected, isFocused }: Pro
     // )
     return (
       <a
-        className={`list-group-item list-group-item-ligh list-group-item-action ${isSelected?"active ":""} ${isFocused?"focused ":""}`}
+        className={`list-group-item list-group-item-action ${isSelected?"active ":""} ${isFocused?"focused ":""}`}
         type="button"
         ref={isFocused?focusedRef:null}
         style={{

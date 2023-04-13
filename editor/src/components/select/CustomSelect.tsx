@@ -7,12 +7,16 @@ interface Props {
   render: (x: any)=> ReactNode,
   options: any[],
   filterByText: (x: any, input: string)=> boolean,
+  renderInput?: (x:any)=> string,
+  placeholder?: string,
+  initialValue?: any,
+  onSelect?: (x: any)=>void
 }
 
-export const CustomSelect = ({render, options, filterByText}: Props) => {
+export const CustomSelect = ({render, options, filterByText, renderInput, placeholder, initialValue, onSelect}: Props) => {
     const [toggle, setToggle] = useState(false);
     const [filteredOptions, setFilteredOptions] = useState(()=>options);
-    const [selectedValue, setSelectedValue] = useState<any>(undefined);
+    const [selectedValue, setSelectedValue] = useState<any>(()=>initialValue);
     const [inputValue, setInputValue] = useState("");
     const [focusedIndex, setFocusedIndex] = useState(-1);
 
@@ -23,6 +27,7 @@ export const CustomSelect = ({render, options, filterByText}: Props) => {
     }
 
     const handleSelection = (x: any) => {
+      onSelect?.(x);
       setSelectedValue(x);
       resetValues();
     }
@@ -65,8 +70,8 @@ export const CustomSelect = ({render, options, filterByText}: Props) => {
     );
     return (
       <>
-        <div style={{ display: "flex", justifyContent: "center", justifyItems: "center" }}>
-          <div className="mx-2"
+        <div style={{ display: "flex", justifyContent: "center", justifyItems: "center", width:"100%" }}>
+          <div className="w-100 position-relative"
             tabIndex={-1}
             onFocusCapture={() => setToggle(true)}
             onBlur={resetValues}
@@ -75,19 +80,19 @@ export const CustomSelect = ({render, options, filterByText}: Props) => {
             <input
               className={`form-control ${selectedValue?"bg-secondary-subtle":""}`}
               type="text"
-              placeholder="Assign To"
-              value={toggle||inputValue?inputValue:(selectedValue?.first_name || selectedValue)}
+              placeholder={placeholder}
+              value={toggle||inputValue?inputValue:(selectedValue?.first_name || renderInput?.(selectedValue))}
               style={{ width: "100%" }}
               onClick={(e)=>{setToggle(true)}}
               onChange={(e)=> handleChange(e.target.value)}
             />
             {toggle && (
               <div
-                className="list-group list-group-flush bg-light"
+                className="list-group bg-secondary list-group-flush bg-light p-1 pt-0"
                 style={{
                   position: "absolute",
                   zIndex: "20",
-                  width: "300px",
+                  width: "100%",
                   maxHeight: "500px",
                   overflowY: "auto",
                   border: "1px solid #ced4da",

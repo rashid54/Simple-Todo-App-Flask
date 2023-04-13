@@ -1,34 +1,21 @@
 import { Pagination, Table } from "react-bootstrap";
-import { profiles } from "../../SampleData";
+import { profiles as initialProfiles } from "../../SampleData";
 import { useState } from "react";
 import { CustomSelect } from "../select/CustomSelect";
+
+interface Profile {
+  id: number,
+  first_name: string,
+  last_name: string,
+  email: string,
+  status?: string,
+  title?: string
+}
 
 export const TableWithFormElements = () => {
   const [pageNum, setPageNum] = useState(() => 0);
   const [showEntries, setShowEntries] = useState(() => 10);
-
-  const render = (x: any) => (
-    <>
-      <p style={{ margin: "0px" }}>id: {x.id}</p>
-      <p style={{ margin: "0px" }}>first_name: {x.first_name}</p>
-      <p style={{ margin: "0px" }}>last_name: {x.last_name}</p>
-      <p style={{ margin: "0px" }}>gender: {x.gender}</p>
-      <p style={{ margin: "0px" }}>email: {x.email}</p>
-      {/* <p>ip_address: {props.x.ip_address}</p> */}
-      {/* <hr 
-        style={{
-          width: "80%",
-          // height: "0px",
-          margin: "8px auto 0px",
-          // borderTop: "0px",
-          // borderBottom: "6px",
-          // borderStyle: "dotted",
-          borderColor: "#5D5D5D"
-        }}
-      /> */}
-    </>
-  )
-  const filter = (x: any, inputValue: string) => x.first_name.toLowerCase().includes(inputValue.toLowerCase())
+  const [profiles, setProfiles] = useState<Profile[]>(() => initialProfiles)
   return (
     <section className="w-100 px-2 d-flex flex-column">
       <Table striped style={{ tableLayout: "fixed" }}>
@@ -37,7 +24,7 @@ export const TableWithFormElements = () => {
             <th style={{ width: "5%" }}>#</th>
             <th style={{ width: "15%" }} >First Name</th>
             <th style={{ width: "15%" }}>Last Name</th>
-            <th style={{ width: "30%" }}>Email</th>
+            <th style={{ width: "35%" }}>Email</th>
             <th style={{ width: "20%" }}>Status</th>
             <th style={{ width: "20%" }}>Title</th>
           </tr>
@@ -45,23 +32,42 @@ export const TableWithFormElements = () => {
         <tbody>
           {
             profiles.slice(pageNum * showEntries, (pageNum * showEntries) + showEntries).map((profile) =>
-              <tr>
+              <tr key={profile.id}>
                 <td>{profile.id}</td>
                 <td>{profile.first_name}</td>
                 <td>{profile.last_name}</td>
                 <td>{profile.email}</td>
-                <td>
+                <td className="pe-3">
                   <CustomSelect
+                    placeholder="Set Status"
                     options={['Active', 'Inactive', 'Disabled']}
+                    initialValue={(profile).status}
                     filterByText={
-                      (x:any, input:string) => x.toLowerCase().includes(input.toLowerCase())
-                      
+                      (x: any, input: string) => x.toLowerCase().includes(input.toLowerCase())
+
                     }
+                    renderInput={x => x}
                     render={
-                      x => <p>{x}</p>
+                      x => <span>{x}</span>
                     }
-                  /></td>
-                <td><CustomSelect render={render} options={profiles} filterByText={filter} /></td>
+                    onSelect={(x) => setProfiles(prev => prev.map(i => i.id === profile.id ? { ...profile, status: x } : { ...i }))}
+                  />
+                </td>
+                <td className="pe-3">
+                  <CustomSelect
+                    placeholder="Set Tilte"
+                    options={['Developer', 'Senior Manager', 'Junior Developer', "Trainee"]}
+                    initialValue={""}
+                    filterByText={
+                      (x: any, input: string) => x.toLowerCase().includes(input.toLowerCase())
+
+                    }
+                    renderInput={x => x}
+                    render={
+                      x => <span>{x}</span>
+                    }
+                  />
+                </td>
               </tr>
             )
           }
